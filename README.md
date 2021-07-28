@@ -10,8 +10,7 @@
 
 ### Custom Resource YAML Files
 This isn't the cleanest way for this to be done. Future solutions to follow....
-- find all files with `-EDIT`
+- find all files with `-EDIT.yaml` (`find . -name \*-EDIT.yaml`) 
 - customize to your liking 
 - remove `-EDIT` from filename  
-
 
