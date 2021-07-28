@@ -1,6 +1,6 @@
 # chatbot-env-setup 
 
-Deploy [link Starburst Enterprise (SEP)](https://www.starburst.io/platform/starburst-enterprise/) to Openshift
+Deploy [Starburst Enterprise (SEP)](https://www.starburst.io/platform/starburst-enterprise/) to Openshift.
 
 ## Prerequisites:
 - Strimzi Operator (tested on 0.23.0) OR Red Hat Openshift Streams for Apache Kafka
@@ -17,4 +17,4 @@ This isn't the cleanest way for this to be done. Future solutions to follow....
 ## Starburst license 
 A license, provided by Starburst, yields additional features in the SEP environment. Once receiving your license file from Starburst, you need to create a secret containing the license file and reference the secret in your custom yaml file. 
 
-The following [link documentation](https://docs.starburst.io/356-e/k8s/sep-config-examples.html?highlight=license#adding-the-license-file) describes the process. 
+The following [documentation](https://docs.starburst.io/356-e/k8s/sep-config-examples.html?highlight=license#adding-the-license-file) describes the process. 
