@@ -14,3 +14,5 @@ This isn't the cleanest way for this to be done. Future solutions to follow....
 - customize to your liking 
 - remove `-EDIT` from filename  
 
+### Starburst license 
+
