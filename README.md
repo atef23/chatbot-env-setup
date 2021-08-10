@@ -10,9 +10,7 @@ Deploy [Starburst Enterprise (SEP)](https://www.starburst.io/platform/starburst-
 
 ## Custom Resource YAML Files
 This isn't the cleanest way for this to be done. Future solutions to follow....
-- find all files with `-EDIT.yaml` (`find . -name \*-EDIT.yaml`) 
-- customize to your liking 
-- remove `-EDIT` from file name  
+- customize to your requirements
 
 ## Starburst license 
 A license, provided by Starburst, yields additional features in the SEP environment. Once receiving your license file from Starburst, you need to create a secret containing the license file and reference the secret in your custom yaml file. 
