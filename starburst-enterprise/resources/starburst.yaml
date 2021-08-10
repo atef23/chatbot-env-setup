@@ -2,7 +2,6 @@ apiVersion: charts.starburstdata.com/v1alpha1
 kind: StarburstEnterprise
 metadata:
   name: starburstenterprise-sample
-  namespace: ADD_PROJECT_NAMESPACE
 spec:
   additionalVolumes: []
   cache:
@@ -12,6 +11,15 @@ spec:
     volume:
       emptyDir: {}
   catalogs:
+    kafka: |-
+      connector.name=kafka
+      kafka.security-protocol=SASL_SSL
+      kafka.authentication.type=PASSWORD
+      kafka.authentication.username=ADD_USERNAME
+      kafka.authentication.password=ADD_PASSWORD
+      kafka.nodes=ADD_BOOTSTRAP_SERVER
+      kafka.table-names=messages
+      kafka.hide-internal-columns=false
     customer-domain: |-
       connector.name=postgresql
       connection-url=jdbc:postgresql://customer-domain:5432/example
@@ -22,11 +30,6 @@ spec:
       connection-url=jdbc:postgresql://finance-domain:5432/example
       connection-user=ADD_USERNAME
       connection-password=ADD_PASSWORD
-    kafka: |-
-      connector.name=kafka
-      kafka.nodes=chatbot-kafka-bootstrap:9092
-      kafka.table-names=messages
-      kafka.hide-internal-columns=false
     datalake: |-
       connector.name=hive-hadoop2
       hive.metastore.uri=thrift://hive:9083
