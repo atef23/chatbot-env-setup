@@ -2,7 +2,6 @@ apiVersion: charts.starburstdata.com/v1alpha1
 kind: StarburstHive
 metadata:
   name: starbursthive-sample
-  namespace: ADD_PROJECT_NAMESPACE
 spec:
   image:
     repository: registry.connect.redhat.com/starburst/hive
