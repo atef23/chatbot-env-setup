@@ -2,7 +2,6 @@ apiVersion: postgresql.dev4devs.com/v1alpha1
 kind: Database
 metadata:
   name: customer-domain 
-  namespace: ADD_PROJECT_NAMESPACE
   labels:
     app: postgres 
 spec:
