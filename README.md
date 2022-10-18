@@ -8,6 +8,55 @@ Deploy [Starburst Enterprise (SEP)](https://www.starburst.io/platform/starburst-
 - Starburst Hive
 - Postgres
 
+### *Namespace and Operator Install*
+
+    ansible-playbook /ansible-install/starburst-prequisites-ansible.yaml
+
+Creates "starburst" namespace and applies Strimzi and Starburst Enterprise subscriptions. Otherwise, install from Openshift Console OperatorHub.
+
+### *Trino CLI Installation*
+
+1. download from https://docs.starburst.io/latest/installation/download.html#clients
+
+2. Assuming _/usr/local/bin_ is on _$PATH_ environment variable:
+
+    cd /usr/local/bin
+
+    cp -p /home/<username>/Download/trino-cli-*-executable.jar .
+
+    mv trino-cli-*-executable.jar trino
+
+    chmod +x trino
+
+3. Validate with _trino --version_ command
+
+### *Install Go (for Postgres Operator Install - skip if you already have Go)*
+
+1. Download from
+
+    https://go.dev/doc/install
+
+2. Add gopath to env:
+
+    export GOPATH=$HOME/go
+
+3. Validate with _go --version_
+
+### *Install Postgres Operator in Starburst Namespace*
+
+1. Clone Operator from Repository:
+
+    git clone git@github.com:dev4devs-com/postgresql-operator.git $GOPATH/src/github.com/dev4devs-com/postgresql-operator
+
+2. Update Role Binding for "Starburst Namespace":
+Change the "Namespace" values in the Makefile and deploy/role_binding.yaml to point to your starburst namespace ("starburst" if using the defaults from this setup).
+
+3. Install Operator on Openshift:
+
+    cd $GOPATH/src/github.com/dev4devs-com/postgresql-operator
+
+    make install
+
 ## Custom Resource YAML Files
 This isn't the cleanest way for this to be done. Future solutions to follow....
 - customize to your requirements
