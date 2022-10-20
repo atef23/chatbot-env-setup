@@ -57,18 +57,60 @@ Change the "Namespace" values in the Makefile and deploy/role_binding.yaml to po
 
     make install
 
-## Custom Resource YAML Files
-This isn't the cleanest way for this to be done. Future solutions to follow....
-- customize to your requirements
-
 ## Starburst license 
 A license, provided by Starburst, yields additional features in the SEP environment. Once receiving your license file from Starburst, you need to create a secret containing the license file and reference the secret in your custom yaml file. 
 
 The following [documentation](https://docs.starburst.io/356-e/k8s/sep-config-examples.html?highlight=license#adding-the-license-file) describes the process. 
 
-## Deployment
-Before getting started, edit the `.env` or create a `.env.local` file to customize your environment.
+### Red Hat Marketplace Registration for Starburst License
+For Starburst licenses purchased through the Red Hat Marketplace, follow the setup instructions to register your cluster with the marketplace (recommended installation procedure with secret generation is on https://marketplace.redhat.com/en-us/workspace/clusters/add/register):
 
-Use `make deploy` to deploy `customer-domain`, `finance-domain`, `kafka` (strimzi), `starburst-enterprise`, and `starburst-hive`.
+Generate Pull Secret on https://marketplace.redhat.com/en-us/workspace/clusters/add/register. After that, register your cluster:
+
+    oc create namespace openshift-redhat-marketplace
+
+    oc apply -f "https://marketplace.redhat.com/provisioning/v1/rhm-operator/rhm-operator-subscription?approvalStrategy=Automatic"
+
+    oc create secret generic redhat-marketplace-pull-secret -n openshift-redhat-marketplace --from-literal=PULL_SECRET=<pull_secret_key>
+
+    curl -sL https://marketplace.redhat.com/provisioning/v1/scripts/update-global-pull-secret | bash -s <pull_secret_key>
+
+After this, push the Starburst Operator to your cluster from Red Hat Marketplace:
+
+1. Go to Workspace > My Software > Product > Install Operator
+2. Under "Operators" click Install Operator
+3. Select options (for this setup choose all namespaces)
+4. Click Install and monitor progress. The operator should update on your Openshift Console as well.
+
+## Deployment
+1. Before getting started, edit the `.env` or create a `.env.local` file to customize your environment: add your cluster details to the environment file.
+2. Use `make deploy` to deploy `customer-domain`, `finance-domain`, `kafka` (strimzi), `starburst-enterprise`, and `starburst-hive`.
+
+*Note*: Update starburst-enterprise/deploy.sh to use the starburst-trial.yaml if you do not have a license key
 
 You can deploy items individually using `make deploy-customer`, for example.
+3. Once Starburst is up expose a route and validate:
+
+    oc expose svc/starburst
+    oc get route | grep starburst
+    trino --server starburst-sep-demo.apps.cluster-mnqpd.mnqpd.sandbox878.opentlc.com --catalog tpch
+
+
+
+## Issues
+
+### StorageClass Standard Not Found
+
+For Postgres PVC Storageclass errors, apply the "standard" storageclass object under:
+_/ansible-install/objects/storageclass-standard.yaml_
+
+### Memory Limits for Starburst Coordinator
+
+For this error:
+
+        pods "coordinator-6d54b88565-9zcmv" is forbidden: [maximum memory usage
+        per Container is 6Gi, but limit is 16Gi, maximum cpu usage per Pod is 4,
+        but limit is 4500m, maximum memory usage per Pod is 12Gi, but limit is
+        17716740096]
+
+Delete the LimitRanges on the namespace
