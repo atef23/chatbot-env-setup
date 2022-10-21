@@ -29,13 +29,13 @@ spec:
     customer-domain: |-
       connector.name=postgresql
       connection-url=jdbc:postgresql://customer-domain:5432/example
-      connection-user=ADD_USERNAME
-      connection-password=ADD_PASSWORD
+      connection-user=postgres
+      connection-password=postgres
     finance-domain: |-
       connector.name=postgresql
       connection-url=jdbc:postgresql://finance-domain:5432/example
-      connection-user=ADD_USERNAME
-      connection-password=ADD_PASSWORD
+      connection-user=postgres
+      connection-password=postgres
     datalake: |-
       connector.name=hive-hadoop2
       hive.metastore.uri=thrift://hive:9083
@@ -280,8 +280,8 @@ spec:
     podAnnotations: {}
     replicas: 2
     resources:
-      cpu: 16
-      memory: 100Gi
+      cpu: 4
+      memory: 10Gi
     securityContext: {}
     sidecars: []
     starburstWorkerShutdownGracePeriodSeconds: 120

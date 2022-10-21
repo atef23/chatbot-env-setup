@@ -93,8 +93,79 @@ You can deploy items individually using `make deploy-customer`, for example.
 
     oc expose svc/starburst
     oc get route | grep starburst
-    trino --server starburst-sep-demo.apps.cluster-mnqpd.mnqpd.sandbox878.opentlc.com --catalog tpch
+    trino --server <route_url> --catalog tpch
 
+## Trino Querying:
+
+Once connected to the Starburst Server with the Trino CLI (step 3 above), you can run Trino Queries. Full Documentation is available at https://trino.io/docs/current/sql.html
+
+Example Queries for this demo:
+
+_Show Catalogs:_
+
+    trino> SHOW CATALOGS;
+        Catalog     
+    -----------------
+    customer-domain 
+    datalake        
+    finance-domain  
+    system          
+    tpch            
+    (5 rows)
+
+    Query 20221020_174419_00001_fabka, FINISHED, 2 nodes
+    Splits: 12 total, 12 done (100.00%)
+    36.18 [0 rows, 0B] [0 rows/s, 0B/s]
+
+_Show Schemas:_
+
+    trino> SHOW SCHEMAS FROM tpch;
+       Schema       
+    --------------------
+    information_schema 
+    sf1                
+    sf100              
+    sf1000             
+    sf10000            
+    sf100000           
+    sf300              
+    sf3000             
+    sf30000            
+    tiny               
+    (10 rows)
+
+    Query 20221020_175325_00006_fabka, FINISHED, 3 nodes
+    Splits: 12 total, 12 done (100.00%)
+    0.20 [10 rows, 119B] [50 rows/s, 595B/s]
+
+_Show Tables:_
+
+    trino> SHOW TABLES FROM tpch.sf1;
+    Table   
+    ----------
+    customer 
+    lineitem 
+    nation   
+    orders   
+    part     
+    partsupp 
+    region   
+    supplier 
+    (8 rows)
+
+    Query 20221020_175624_00007_fabka, FINISHED, 3 nodes
+    Splits: 12 total, 12 done (100.00%)
+    0.24 [8 rows, 158B] [33 rows/s, 664B/s]
+
+_Select Queries:_
+
+    trino> SELECT * FROM tpch.sf1.customer LIMIT 3;
+    custkey |        name        |                 address                  | nationkey |      phone      | acctbal | mktsegment |                                 
+    ---------+--------------------+------------------------------------------+-----------+-----------------+---------+------------+---------------------------------
+    37501 | Customer#000037501 | Ftb6T5ImHuJ                              |         2 | 12-397-688-6719 | -324.85 | HOUSEHOLD  | pending ideas use carefully. exp
+    37502 | Customer#000037502 | ppCVXCFV,4JJ97IibbcMB5,aPByjYL07vmOLO 3m |        18 | 28-515-931-4624 |  5179.2 | BUILDING   | express deposits. pending, regul
+    37503 | Customer#000037503 | Cg60cN3LGIUpLpXn0vRffQl8                 |        13 | 23-977-571-7365 | 1862.32 | BUILDING   | ular deposits. furiously ironic 
+    (3 rows)
 
 
 ## Issues
